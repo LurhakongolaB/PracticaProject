@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import noteService from './services/notes'
 
-// 1. Internal Note Component (Since you want it in this file)
 const Note = ({ note, toggleImportance }) => {
   return (
     <li className="note">
@@ -14,33 +13,25 @@ const Note = ({ note, toggleImportance }) => {
 }
 
 const App = () => {
-  const [notes, setNotes] = useState([]) // Start with empty array
+  const [notes, setNotes] = useState([])
   const [newNote, setNewNote] = useState('')
   const [showAll, setShowAll] = useState(true)
 
-  // 2. Fetching Data
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/notes')
-      .then(response => {
-        // Because your db.json is { "notes": [...] }, we need response.data
-        // JSON-server usually returns the array directly if you hit /notes
-        setNotes(response.data)
-      })
+    noteService.getAll().then(initialNotes => {
+      setNotes(initialNotes)
+    })
   }, [])
 
-  // 3. Toggle Importance Logic
   const toggleImportanceOf = (id) => {
-    const url = `http://localhost:3001/notes/${id}`
     const note = notes.find(n => n.id === id)
     const changedNote = { ...note, important: !note.important }
 
-    axios.put(url, changedNote).then(response => {
-      setNotes(notes.map(n => n.id !== id ? n : response.data))
+    noteService.update(id, changedNote).then(returnedNote => {
+      setNotes(notes.map(n => n.id !== id ? n : returnedNote))
     })
   }
 
-  // 4. Add Note Logic
   const addNote = (event) => {
     event.preventDefault()
     const noteObject = {
@@ -48,29 +39,24 @@ const App = () => {
       important: Math.random() > 0.5,
     }
 
-    axios
-      .post('http://localhost:3001/notes', noteObject)
-      .then(response => {
-        setNotes(notes.concat(response.data))
-        setNewNote('')
-      })
+    noteService.create(noteObject).then(returnedNote => {
+      setNotes(notes.concat(returnedNote))
+      setNewNote('')
+    })
   }
 
-  // 5. Filter Logic (The "show important" part)
   const notesToShow = showAll
     ? notes
-    : notes.filter(note => note.important === true)
+    : notes.filter(note => note.important)
 
   return (
     <div>
       <h1 style={{ color: 'green', fontStyle: 'italic' }}>Notes</h1>
-      
       <div>
         <button onClick={() => setShowAll(!showAll)}>
           show {showAll ? 'important' : 'all'}
         </button>
       </div>
-
       <ul>
         {notesToShow.map(note => 
           <Note 
@@ -80,18 +66,10 @@ const App = () => {
           />
         )}
       </ul>
-
       <form onSubmit={addNote}>
-        <input 
-          value={newNote} 
-          onChange={(e) => setNewNote(e.target.value)} 
-        />
+        <input value={newNote} onChange={(e) => setNewNote(e.target.value)} />
         <button type="submit">save</button>
       </form>
-
-      <footer style={{ marginTop: 20, fontStyle: 'italic', color: 'green' }}>
-        Note app, Department of Computer Science, University of Helsinki 2026
-      </footer>
     </div>
   )
 }
