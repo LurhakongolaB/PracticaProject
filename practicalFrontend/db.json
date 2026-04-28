@@ -1,0 +1,94 @@
+{
+  "notes": [
+    {
+      "id": "1",
+      "content": "HTML is easy",
+      "important": true
+    },
+    {
+      "id": "2",
+      "content": "Browser can execute only JavaScript",
+      "important": true
+    },
+    {
+      "id": "3",
+      "content": "GET and POST are the most important methods of HTTP protocol",
+      "important": false
+    },
+    {
+      "content": "Henry",
+      "important": false,
+      "id": "F_nzEd6"
+    },
+    {
+      "content": "Backend",
+      "important": false,
+      "id": "NiUCtOS"
+    },
+    {
+      "content": "Node is powerful, you can learn it",
+      "important": false,
+      "id": "keqBfH3"
+    },
+    {
+      "content": "Looking forward to Node and the Mongo db",
+      "important": false,
+      "id": "_EmbulS"
+    },
+    {
+      "content": "Waiting for Css",
+      "important": false,
+      "id": "T4Oy8dl"
+    },
+    {
+      "content": "Css is coming",
+      "important": true,
+      "id": "9nfqoNZ"
+    },
+    {
+      "content": "",
+      "important": true,
+      "id": "5ikTM_t"
+    },
+    {
+      "content": "jakka",
+      "important": true,
+      "id": "uYVo9Tj"
+    },
+    {
+      "content": "hello",
+      "important": false,
+      "id": "_b_hylx"
+    },
+    {
+      "content": "hello",
+      "important": true,
+      "id": "KLr6Lwi"
+    },
+    {
+      "content": "Fgaga",
+      "important": true,
+      "id": "NVpNmdn"
+    },
+    {
+      "content": "",
+      "important": true,
+      "id": "pyG6aQX"
+    },
+    {
+      "content": "",
+      "important": true,
+      "id": "8gNdfLm"
+    },
+    {
+      "content": "Luba",
+      "important": false,
+      "id": "tlJt_I6"
+    },
+    {
+      "content": "Balibuza",
+      "important": false,
+      "id": "8nd1pz6"
+    }
+  ]
+}

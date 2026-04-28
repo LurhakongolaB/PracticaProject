@@ -1,0 +1,24 @@
+POST http://localhost:3001/api/notes
+x-password: Jeanne
+Content-Type: application/json
+
+{
+    "content": " Tuone na Headers, Midleware logger tested successfuly",
+    "import": ""
+}
+
+
+
+###
+
+GET http://localhost:3001/api/notes
+password=Jeanne
+
+### 
+
+DELETE http://localhost:3001/api/notes/4
+
+### 
+
+
+
