@@ -4,10 +4,20 @@ Content-Type: application/json
 
 {
     "content": " Tuone na Headers, Midleware logger tested successfuly",
-    "import": ""
+    "import": "false"
 }
 
+### Test Updating an existing note
 
+PUT https://your-app-name.onrender.com/api/notes/1
+Content-Type: application/json
+x-password: Jeanne
+Content-Type: application/json
+
+{
+  "content": "HTML is easy",
+  "important": true
+}
 
 ###
 
