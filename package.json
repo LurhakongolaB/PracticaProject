@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  },
+
+  "scripts": {
+  "dev": "concurrently \"cd practicalServer && npx json-server --watch db.json --port 3001\" \"cd practicalFrontend && npm run dev\""
+}
+}

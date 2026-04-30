@@ -32,29 +32,24 @@ const gatekeeper = (request, response, next) =>{
     }
 }
 
+// Replace the old Luba/Sombi/Henry array with this
 let notes = [
-    
-    {
-        id: 1,
-        name: 'Luba',
-        location: 'kv3',
-        occupation: 'web developement'
-    },
-    {
-        id: 2,
-        name: 'Sombi',
-        location: 'kv1',
-        occupation: ' graphic designer'
-    },
-    {
-        id: 3,
-        name: 'Henry',
-        location: 'kv2',
-        occupation: 'Full stack'
-    }
-
+  {
+    id: "1",
+    content: "HTML is easy",
+    important: true
+  },
+  {
+    id: "2",
+    content: "Browser can execute only JavaScript",
+    important: true
+  },
+  {
+    id: "3",
+    content: "GET and POST are the most important methods of HTTP protocol",
+    important: false
+  }
 ]
-
 // app.get('/',(req,res) => {
 // res.send('Hello world')
 // })
