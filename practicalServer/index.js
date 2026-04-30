@@ -2,7 +2,7 @@ const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
 const path = require('path')
-
+const { request } = require('http')
 const app = express() 
 
 app.use(cors())
@@ -50,9 +50,12 @@ let notes = [
     important: false
   }
 ]
-// app.get('/',(req,res) => {
-// res.send('Hello world')
-// })
+
+// The "Catch-all" route (REQUIRED for React routing)
+// If a user refreshes the page, this prevents a 404
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'))
+})
 
 app.get('/api/notes', (req, res)=>{
     res.json(notes)
@@ -94,6 +97,22 @@ const note = {
 notes = notes.concat(note)
 res.json(note)
 
+})
+// request method for updating the "Important" toggle
+app.put('/api/notes/:id', (requirest, response)=>{
+    const id = request.params.id
+    const body = request.body
+    // Finding Notes in the local array
+    const note = notes.find(n => n.id === id)
+
+    if (note) {
+        const updatedNote = { ...note, important : body.important }
+        notes = notes.map(n => n.id !== id ? n : updatedNote)
+        response.json(updatedNote)
+
+    } else {
+        response.status(404).end()
+    }
 })
 
 const unknownEndpoint = (request, response) =>{
