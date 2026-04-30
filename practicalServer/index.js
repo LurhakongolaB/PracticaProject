@@ -51,12 +51,6 @@ let notes = [
   }
 ]
 
-// The "Catch-all" route (REQUIRED for React routing)
-// If a user refreshes the page, this prevents a 404
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'))
-})
-
 app.get('/api/notes', (req, res)=>{
     res.json(notes)
 })
@@ -98,27 +92,22 @@ notes = notes.concat(note)
 res.json(note)
 
 })
-// request method for updating the "Important" toggle
-// practicalServer/index.js
-
-// practicalServer/index.js
-
-// Ensure this matches the URL structure: /api/notes/ID
 app.put('/api/notes/:id', (request, response) => {
   const id = request.params.id
   const body = request.body
 
-  // If your IDs in index.js are numbers, use: const note = notes.find(n => n.id === Number(id))
   const note = notes.find(n => n.id === id)
-
   if (note) {
     const updatedNote = { ...note, important: body.important }
     notes = notes.map(n => n.id !== id ? n : updatedNote)
     response.json(updatedNote)
   } else {
-    // If the ID isn't found in your notes array, it returns 404
-    response.status(404).json({ error: 'Note not found' })
+    response.status(404).end()
   }
+})
+
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'))
 })
 
 const unknownEndpoint = (request, response) =>{
