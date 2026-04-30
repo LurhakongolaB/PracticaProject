@@ -99,20 +99,26 @@ res.json(note)
 
 })
 // request method for updating the "Important" toggle
-app.put('/api/notes/:id', (requirest, response)=>{
-    const id = request.params.id
-    const body = request.body
-    // Finding Notes in the local array
-    const note = notes.find(n => n.id === id)
+// practicalServer/index.js
 
-    if (note) {
-        const updatedNote = { ...note, important : body.important }
-        notes = notes.map(n => n.id !== id ? n : updatedNote)
-        response.json(updatedNote)
+// practicalServer/index.js
 
-    } else {
-        response.status(404).end()
-    }
+// Ensure this matches the URL structure: /api/notes/ID
+app.put('/api/notes/:id', (request, response) => {
+  const id = request.params.id
+  const body = request.body
+
+  // If your IDs in index.js are numbers, use: const note = notes.find(n => n.id === Number(id))
+  const note = notes.find(n => n.id === id)
+
+  if (note) {
+    const updatedNote = { ...note, important: body.important }
+    notes = notes.map(n => n.id !== id ? n : updatedNote)
+    response.json(updatedNote)
+  } else {
+    // If the ID isn't found in your notes array, it returns 404
+    response.status(404).json({ error: 'Note not found' })
+  }
 })
 
 const unknownEndpoint = (request, response) =>{
