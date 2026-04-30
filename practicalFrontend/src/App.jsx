@@ -87,9 +87,11 @@ const App = () => {
         <button type="submit">save</button>
       </form>
 
-      <footer style={{ marginTop: 20, fontStyle: 'italic', color: 'green' }}>
-        Note app, Department of Computer Science, University of Helsinki 2026
-      </footer>
+     <footer style={{ marginTop: 20, fontStyle: 'italic', color: 'green' }}>
+  Note app, Department of Computer Science, University of Helsinki 2026
+  <br />
+  <strong>Developed by <h3>Mr. Balazire</h3></strong>
+</footer>
     </div>
   )
 }

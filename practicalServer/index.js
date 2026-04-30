@@ -14,6 +14,31 @@ morgan.token('body', (req, res) => {
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
 let notes = [
+  {
+    id: "1",
+    content: "Welcome to my site, esteemed colleagues of the Full Stack Web Development/K-NODE/SIR! I am thrilled to share my progress with you.",
+    important: true
+  },
+  {
+    id: "2",
+    content: "Asset Management: High-performance engine block currently listed as a spare part.",
+    important: false
+  },
+  {
+    id: "3",
+    content: "Asset Management: Office space in the downtown sector available for rent.",
+    important: true
+  },
+  {
+    id: "4",
+    content: "Technical Note: The backend is housed in practicalServer while the frontend lives in PracticalFrontend.",
+    important: true
+  },
+  {
+    id: "5",
+    content: "Git Practice: All configuration changes are being tracked with specific commit messages like 'step1'.",
+    important: false
+  },
   { id: "1", content: "HTML is easy", important: true },
   { id: "2", content: "Browser can execute only JavaScript", important: true },
   { id: "3", content: "GET and POST are the most important methods of HTTP protocol", important: false }
