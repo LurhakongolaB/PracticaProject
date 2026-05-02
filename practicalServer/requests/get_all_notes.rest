@@ -7,26 +7,26 @@ Content-Type: application/json
     "import": "false"
 }
 
-### Test Updating an existing note
+### 
+# Test Updating an existing note
 
-# PUT https://your-app-name.onrender.com/api/notes/1
-# Content-Type: application/json
-# x-password: Jeanne
-# Content-Type: application/json
+PUT https://your-app-name.onrender.com/api/notes/
+x-password: Jeanne
+Content-Type: application/json
 
-# {
-#   "content": "HTML is easy",
-#   "important": true
-# }
+{
+  "content": "HTML is easy",
+  "important": true
+}
 
 ###
 
 GET http://localhost:3001/api/notes
-password=Jeanne
-
+x-password: Jeanne
+Content-Type: application/json
 ### 
 
-DELETE http://localhost:3001/api/notes/4
+DELETE http://localhost:3001/api/notes/6
 
 ### 
 
