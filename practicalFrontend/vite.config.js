@@ -8,7 +8,6 @@ export default defineConfig({
       '/api': {
         target: 'http://localhost:3001',
         changeOrigin: true,
-        // The rewrite line is removed so /api stays in the URL
       },
     },
   },

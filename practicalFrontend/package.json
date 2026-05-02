@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build:ui": "rm -rf dist && cd ../PracticalFrontend && npm run build && cp -r dist ../practicalServer",
+    "deploy:full": "npm run build:ui && git add . && git commit -m 'uibuild' && git push",
     "lint": "eslint .",
     "preview": "vite preview"
   },
