@@ -1,118 +1,74 @@
+require('dotenv').config()
 const express = require('express')
+const Note = require('./models/note')
 const morgan = require('morgan')
-// const cors = require('cors')
 const path = require('path')
-const app = express() 
+const mongoose = require('mongoose')
 
-// app.use(cors())
+
+
+const app = express()
+
 app.use(express.json())
 app.use(express.static(path.join(__dirname, 'dist')))
 
-morgan.token('body', (req, res) => {
-  return JSON.stringify(req.body)
-})
+morgan.token('body', req => JSON.stringify(req.body))
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
-let notes = [
-  {
-    id: "1",
-    content: "Welcome to my site, esteemed colleagues of the Full Stack Web Development/K-NODE/SIR! I am thrilled to share my progress with you.",
-    important: true
-  },
-  {
-    id: "2",
-    content: "Asset Management: High-performance engine block currently listed as a spare part.",
-    important: false
-  },
-  {
-    id: "3",
-    content: "Asset Management: Office space in the downtown sector available for rent.",
-    important: true
-  },
-  {
-    id: "4",
-    content: "Technical Note: The backend is housed in practicalServer while the frontend lives in PracticalFrontend.",
-    important: true
-  },
-  {
-    id: "5",
-    content: "Git Practice: All configuration changes are being tracked with specific commit messages like 'step1'.",
-    important: false
-  },
-  { id: "1", content: "HTML is easy", important: true },
-  { id: "2", content: "Browser can execute only JavaScript", important: true },
-  { id: "3", content: "GET and POST are the most important methods of HTTP protocol", important: false }
-]
+// CLEAN CONNECTION STRING
 
-app.get('/api/notes', (req, res) => {
-  res.json(notes)
-})
+  const url = process.env.MONGODB_URI
 
-// FIXED: Removed Number() conversion to match the string IDs in your array
-app.get('/api/notes/:id', (req, res) => {
-  const id = req.params.id    
-  const note = notes.find(note => note.id === id)
-  if (note) {
-    res.json(note)
-  } else {
-    res.status(404).end()
-  }
-})
-
-// FIXED: Removed Number() conversion
-app.delete('/api/notes/:id', (req, res) => {
-  const id = req.params.id
-  notes = notes.filter(note => note.id !== id)
-  res.status(204).end()
-})
-
-const generateId = () => {
-  const maxId = notes.length > 0
-    ? Math.max(...notes.map(n => Number(n.id)))
-    : 0
-  return String(maxId + 1)
+if (!url) {
+  console.error('❌ Missing MONGODB_URI in .env')
+  process.exit(1)
 }
 
-app.post('/api/notes', (req, res) => {
-  const body = req.body
-  if (!body.content) {
-    return res.status(400).json({ error: 'content missing' })
-  }
+app.get('/api/notes', (request, response) => {
+  Note.find({}).then(notes => {
+    response.json(notes)
+  })
+})
+
+// DELETE
+app.delete('/api/notes/:id', (request, response) => {
+  Note.findByIdAndDelete(request.params.id)
+    .then(() => response.status(204).end())
+})
+
+// POST
+app.post('/api/notes', (request, response) => {
+  const body = request.body
+
+  const note = new Note({
+    content: body.content,
+    important: body.important || false,
+  })
+
+  note.save().then(saved => response.json(saved))
+})
+
+// PUT
+app.put('/api/notes/:id', (request, response) => {
+  const body = request.body
 
   const note = {
     content: body.content,
-    important: body.important || true,
-    id: generateId(),
+    important: body.important,
   }
-  notes = notes.concat(note)
-  res.json(note)
+
+  Note.findByIdAndUpdate(request.params.id, note, { new: true })
+    .then(updated => response.json(updated))
 })
 
-app.put('/api/notes/:id', (request, response) => {
-  const id = request.params.id
-  const body = request.body
-  const note = notes.find(n => n.id === id)
-  
-  if (note) {
-    const updatedNote = { ...note, important: body.important }
-    notes = notes.map(n => n.id !== id ? n : updatedNote)
-    response.json(updatedNote)
-  } else {
-    response.status(404).end()
-  }
-})
-
-app.get(/^(?!\/api).+/, (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'))
-})
-
-
-const unknownEndpoint = (request, response) => {
-  response.status(404).send({ error: 'unknown endpoint' })
+const unknownEndpoint = (req, res) => {
+  res.status(404).json({ error: 'unknown endpoint' })
 }
+
 app.use(unknownEndpoint)
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`Server running on ${PORT}`)
 })
+
