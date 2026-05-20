@@ -1,0 +1,14 @@
+GET http://localhost:3001/api/notes
+
+###
+
+POST http://localhost:3001/api/notes
+Content-Type: application/json
+
+{
+  "content": "MongoDB is a NoSQL database",
+  "important": true
+}
+
+###
+GET http://localhost:3001/api/notes/5c41c90e84d891c15dfa3431
